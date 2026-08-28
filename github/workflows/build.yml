@@ -1,0 +1,37 @@
+name: Build Android APK Direct
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Unzip project files
+        run: |
+          [ -f android.zip ] && unzip -o android.zip -d .
+          [ -f src.zip ] && unzip -o src.zip -d .
+          [ -f supabase.zip ] && unzip -o supabase.zip -d .
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Build APK
+        run: |
+          if [ -d "android" ]; then cd android; fi
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SleepAlarm-APK
+          path: '**/app-debug.apk'
