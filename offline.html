@@ -11,11 +11,9 @@
 html,body{height:100%}
 body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-/* ===== Layout ===== */
 .app{position:relative;min-height:100vh;z-index:10;max-width:672px;margin:0 auto;padding:32px 20px 40px;display:flex;flex-direction:column;gap:20px}
 .main{flex:1;display:flex;flex-direction:column;gap:20px}
 
-/* ===== Starfield ===== */
 .starfield{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .starfield .bg{position:absolute;inset:0;background:linear-gradient(to bottom,#05060f,#0a0c1b,#05060f)}
 .starfield .nebula1{position:absolute;top:-25%;right:25%;width:600px;height:600px;border-radius:50%;background:rgba(43,48,136,0.2);filter:blur(120px)}
@@ -27,7 +25,6 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 @keyframes pulseRing{0%{transform:scale(.95);opacity:.7}70%{transform:scale(1.3);opacity:0}100%{transform:scale(1.3);opacity:0}}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.05);opacity:1}}
 
-/* ===== Header ===== */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .header-left{display:flex;align-items:center;gap:12px}
 .moon-icon{width:44px;height:44px;animation:float 6s ease-in-out infinite}
@@ -38,23 +35,19 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .clock-time{font-family:monospace;font-size:24px;font-weight:600;color:#e3e9ff;font-variant-numeric:tabular-nums}
 .clock-date{font-size:11px;color:rgba(163,179,255,0.6)}
 
-/* ===== Cards ===== */
 .card{border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);backdrop-filter:blur(12px);padding:24px}
 .card-glow{box-shadow:0 0 40px -8px rgba(122,134,240,0.45)}
 .label{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#c8d3ff;margin-bottom:12px}
 .label svg{width:20px;height:20px}
 
-/* ===== Time Input ===== */
 .time-input{width:100%;border-radius:12px;border:1px solid #272e54;background:rgba(10,12,27,0.6);padding:16px;text-align:center;font-size:30px;font-weight:700;color:#f3f6ff;outline:none;transition:border-color .3s,box-shadow .3s;color-scheme:dark}
 .time-input:focus{border-color:#5a6bf0;box-shadow:0 0 40px -8px rgba(122,134,240,0.45)}
 .time-input::-webkit-calendar-picker-indicator{filter:invert(1) opacity(0.7);cursor:pointer}
 .hint{margin-top:12px;font-size:12px;color:rgba(163,179,255,0.6)}
 
-/* ===== Section Title ===== */
 .section-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#c8d3ff;margin-bottom:12px}
 .section-title svg{width:16px;height:16px}
 
-/* ===== Cycle Grid ===== */
 .cycle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media(max-width:480px){.cycle-grid{grid-template-columns:repeat(2,1fr)}}
 .cycle-btn{position:relative;overflow:hidden;border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.3);padding:16px;text-align:right;cursor:pointer;transition:border-color .3s,background .3s;color:inherit;font-family:inherit}
@@ -68,13 +61,11 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .cycle-time .time{font-size:18px;font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums}
 .cycle-meta{display:flex;justify-content:space-between;font-size:11px;color:rgba(163,179,255,0.7)}
 
-/* ===== Summary ===== */
 .summary-row{display:flex;align-items:center;justify-content:space-between;font-size:14px;margin-bottom:16px}
 .summary-item{display:flex;align-items:center;gap:8px;color:#c8d3ff}
 .summary-item svg{width:16px;height:16px}
 .summary-item .val{font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums}
 
-/* ===== Buttons ===== */
 .btn-arm{display:flex;width:100%;align-items:center;justify-content:center;gap:12px;border-radius:12px;background:linear-gradient(to left,#4350d6,#14b8a6);padding:16px;font-size:18px;font-weight:700;color:#fff;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s;box-shadow:0 0 40px -8px rgba(94,234,212,0.5);font-family:inherit}
 .btn-arm:hover{transform:scale(1.02)}
 .btn-arm:active{transform:scale(.95)}
@@ -92,7 +83,6 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .btn-reset:hover{transform:scale(1.02)}
 .btn-reset:active{transform:scale(.95)}
 
-/* ===== Pulse Ring ===== */
 .pulse-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:128px;height:128px;margin:16px auto 0}
 .pulse-ring{position:absolute;inset:0;border-radius:50%;background:rgba(20,184,166,0.2);animation:pulseRing 1.8s cubic-bezier(.215,.61,.355,1) infinite}
 .pulse-ring.delay{animation-delay:.4s;inset:8px;background:rgba(20,184,166,0.1)}
@@ -105,11 +95,9 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .pulse-core-gold{width:112px;height:112px;border:1px solid rgba(252,211,77,0.4);background:rgba(17,20,43,0.7)}
 .pulse-core-gold svg{width:64px;height:64px;color:#fcd34d}
 
-/* ===== Countdown ===== */
 .countdown-label{text-align:center;font-size:14px;color:rgba(163,179,255,0.7);margin-top:16px}
 .countdown{text-align:center;font-family:monospace;font-size:36px;font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums;margin-top:4px}
 
-/* ===== Info Tiles ===== */
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
 .info-tile{display:flex;align-items:center;gap:12px;border-radius:12px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:12px 16px;backdrop-filter:blur(4px)}
 .info-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:rgba(26,31,61,0.4);color:#a3b3ff}
@@ -117,12 +105,10 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .info-label{font-size:11px;color:rgba(163,179,255,0.6)}
 .info-value{font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums}
 
-/* ===== Ringing View ===== */
 .ringing{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0}
 .ringing-title{font-size:24px;font-weight:700;color:#f3f6ff;text-align:center}
 .ringing-sub{text-align:center;font-size:14px;color:rgba(163,179,255,0.7)}
 
-/* ===== Sleeping View ===== */
 .sleeping{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0}
 .sleeping .moon-big{width:112px;height:112px;animation:breathe 4s ease-in-out infinite}
 .sleeping .moon-big svg{width:100%;height:100%;filter:drop-shadow(0 0 25px rgba(251,191,36,0.45))}
@@ -131,7 +117,6 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .sleeping-wake{font-size:18px;font-weight:700;color:#fcd34d;text-align:center}
 .sleeping-countdown-card{width:100%;border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:24px;text-align:center;backdrop-filter:blur(12px)}
 
-/* ===== Done View ===== */
 .done-view{display:flex;flex-direction:column;align-items:center;gap:24px;padding:32px 0}
 .done-icon{display:flex;align-items:center;justify-content:center;width:112px;height:112px;border-radius:50%;background:rgba(20,184,166,0.15);color:#5eead4;box-shadow:0 0 40px -8px rgba(94,234,212,0.5)}
 .done-icon svg{width:56px;height:56px}
@@ -139,7 +124,6 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .done-sub{font-size:14px;color:rgba(163,179,255,0.7);text-align:center}
 .done-accent{font-size:14px;color:#5eead4;text-align:center}
 
-/* ===== Sound Settings ===== */
 .settings-card{border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);backdrop-filter:blur(12px);padding:20px}
 .settings-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#c8d3ff;margin-bottom:16px}
 .settings-title svg{width:16px;height:16px;color:#5eead4}
@@ -168,10 +152,8 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .volume-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(to left,#14b8a6,#5a6bf0);outline:none;cursor:pointer}
 .volume-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#e3e9ff;border:2px solid #14b8a6;box-shadow:0 0 10px rgba(20,184,166,0.5);cursor:pointer;transition:transform .15s}
 .volume-slider::-webkit-slider-thumb:hover{transform:scale(1.2)}
-.volume-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#e3e9ff;border:2px solid #14b8a6;box-shadow:0 0 10px rgba(20,184,166,0.5);cursor:pointer}
 .volume-range-labels{display:flex;justify-content:space-between;font-size:10px;color:rgba(163,179,255,0.4);margin-top:4px}
 
-/* ===== History ===== */
 .history-section{margin-top:32px}
 .history-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#c8d3ff;margin-bottom:12px}
 .history-title svg{width:16px;height:16px}
@@ -187,13 +169,8 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .history-badge.done svg{width:14px;height:14px}
 .history-badge.pending{color:rgba(163,179,255,0.5)}
 
-/* ===== Error ===== */
 .error-box{border-radius:12px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.1);padding:8px 16px;font-size:14px;color:#fca5a5}
-
-/* ===== Footer ===== */
 .footer{margin-top:40px;text-align:center;font-size:11px;color:rgba(163,179,255,0.4)}
-
-/* ===== Center helper ===== */
 .center{text-align:center}
 .mt-16{margin-top:16px}
 </style>
@@ -205,28 +182,24 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 (function(){
 'use strict';
 
-/* ===== SVG Icons ===== */
 var ICONS = {
   moon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
   sunrise: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>',
   bed: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>',
   bell: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 14.192 18 12.229 18 8A6 6 0 0 0 6 8c0 4.228-1.411 6.192-2.738 7.326"/></svg>',
   bellRing: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 14.192 18 12.229 18 8A6 6 0 0 0 6 8c0 4.228-1.411 6.192-2.738 7.326"/><path d="M22 8h-4"/><path d="M2 8h4"/><path d="M4 4 6 6"/><path d="M20 4l-2 2"/></svg>',
-  alarmClock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M6.383 18.711 5 22"/><path d="m17.617 18.711 19 3.289"/></svg>',
+  alarmClock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M6.383 18.711 5 22"/><path d="m17.617 18.711 1.383 3.289"/></svg>',
   checkCircle: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>',
   clock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
   rotateCcw: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
   sparkles: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>',
-  star: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.299a1 1 0 0 1 1.95 0l.701 2.143a1 1 0 0 0 .632.632l2.143.701a1 1 0 0 1 0 1.95l-2.143.701a1 1 0 0 0-.632.632l-.701 2.143a1 1 0 0 1-1.95 0l-.701-2.143a1 1 0 0 0-.632-.632l-2.143-.701a1 1 0 0 1 0-1.95l2.143-.701a1 1 0 0 0 .632-.632l.701-2.143Z"/></svg>',
   music: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
   chevronDown: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
   play: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
   square: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>',
-  volume1: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.47L6.5 9H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.5l3.298 4.768A.705.705 0 0 0 11 19.298V4.702Z"/><path d="M16 9a5 5 0 0 1 0 6"/></svg>',
   volume2: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.47L6.5 9H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.5l3.298 4.768A.705.705 0 0 0 11 19.298V4.702Z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>'
 };
 
-/* ===== Constants ===== */
 var CYCLE_MINUTES = 90;
 var MIN_CYCLES = 3;
 var MAX_CYCLES = 6;
@@ -238,7 +211,6 @@ var ALARM_SOUNDS = [
   {id:'bell',label:'جرس قوي',description:'رنين عميق متكرر'}
 ];
 
-/* ===== Sleep Math ===== */
 function parseTime(v){var p=v.split(':').map(Number);return{h:p[0]||8,m:p[1]||30}}
 function atSameDate(b,h,m){var d=new Date(b);d.setHours(h,m,0,0);return d}
 function formatTimeAr(d){var h=d.getHours();var m=String(d.getMinutes()).padStart(2,'0');var s=h<12?'ص':'م';h=h%12;if(h===0)h=12;return String(h).padStart(2,'0')+':'+m+' '+s}
@@ -264,7 +236,6 @@ function formatCountdown(ms){
   return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
 }
 
-/* ===== Sound Engine ===== */
 function createCtx(){return new (window.AudioContext||window.webkitAudioContext)()}
 function beep(ctx,freq,vol,start,dur,type){
   type=type||'sine';
@@ -318,7 +289,6 @@ function previewSound(sound,volume){
   return function(){setTimeout(function(){try{ctx.close()}catch(e){}},100)};
 }
 
-/* ===== Persistent State Storage ===== */
 function saveActiveState(st){
   var data={
     phase:st.phase,
@@ -372,25 +342,37 @@ function updateSession(id,updates){
   localStorage.setItem('sleep_sessions',JSON.stringify(list));
 }
 
-/* ===== State Setup ===== */
 var savedSt = loadActiveState();
+
+// Smart Timestamp Verification on Startup
+var initialNow = new Date();
+var initialPhase = savedSt ? savedSt.phase : 'setup';
+var initialFirst = savedSt && savedSt.firstAlarmAt ? new Date(savedSt.firstAlarmAt) : null;
+var initialFinal = savedSt && savedSt.finalAlarmAt ? new Date(savedSt.finalAlarmAt) : null;
+
+if(initialPhase === 'armed' && initialFirst && initialNow.getTime() >= initialFirst.getTime()){
+  initialPhase = 'ringing';
+}
+if((initialPhase === 'slept' || initialPhase === 'armed') && initialFinal && initialNow.getTime() >= initialFinal.getTime()){
+  initialPhase = 'final-ringing';
+}
 
 var state = {
   wakeTime: savedSt ? savedSt.wakeTime : '08:30',
-  now:new Date(),
-  phase: savedSt ? savedSt.phase : 'setup',
-  firstAlarmAt: savedSt ? savedSt.firstAlarmAt : null,
-  finalAlarmAt: savedSt ? savedSt.finalAlarmAt : null,
+  now: initialNow,
+  phase: initialPhase,
+  firstAlarmAt: initialFirst,
+  finalAlarmAt: initialFinal,
   selectedCycles: savedSt ? savedSt.selectedCycles : 0,
   sessionId: savedSt ? savedSt.sessionId : null,
-  history:loadHistory(),
-  error:null,
+  history: loadHistory(),
+  error: null,
   sound: savedSt ? savedSt.sound : 'high',
   volume: savedSt ? savedSt.volume : 0.8,
-  dropdownOpen:false,
-  previewing:false,
-  countdownToFirst:0,
-  countdownToFinal:0
+  dropdownOpen: false,
+  previewing: false,
+  countdownToFirst: 0,
+  countdownToFinal: 0
 };
 
 var stopSoundFn=null;
@@ -399,18 +381,15 @@ var alarmIntervalId=null;
 var firedFirst=false;
 var firedFinal=false;
 
-/* ===== Render ===== */
 var root=document.getElementById('root');
 
 function render(){
-  // update countdowns
   state.countdownToFirst = state.firstAlarmAt ? state.firstAlarmAt.getTime()-state.now.getTime() : 0;
   state.countdownToFinal = state.finalAlarmAt ? state.finalAlarmAt.getTime()-state.now.getTime() : 0;
 
   var html='';
   html+='<div class="starfield" id="starfield"><div class="bg"></div><div class="nebula1"></div><div class="nebula2"></div></div>';
   html+='<div class="app">';
-  // header
   html+='<header class="header"><div class="header-left"><div class="moon-icon">'+ICONS.moon+'</div><div><h1>منبه دورات النوم</h1><p>نَم بذكاء، استيقظ بنشاط</p></div></div>';
   html+='<div class="header-right"><span class="clock-time">'+formatTimeAr(state.now)+'</span><span class="clock-date">'+state.now.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'})+'</span></div></header>';
 
@@ -436,7 +415,6 @@ function render(){
 
   html+='</main>';
 
-  // history
   if(state.history.length>0 && state.phase==='setup'){
     html+='<section class="history-section"><h2 class="history-title">'+ICONS.clock+' آخر الجلسات</h2><div class="history-list">';
     state.history.forEach(function(s){
@@ -488,15 +466,12 @@ function renderSetup(){
   if(!selectedOpt)selectedOpt=nearest;
 
   var h='';
-  // wake time picker
   h+='<div class="card card-glow"><label class="label">'+ICONS.sunrise+' موعد الاستيقاظ النهائي</label>';
   h+='<input type="time" value="'+state.wakeTime+'" id="wakeTimeInput" class="time-input" />';
   h+='<p class="hint">سيتم حساب أوقات النوم المثالية للخلف من هذا الموعد بدورات مدتها 90 دقيقة.</p></div>';
 
-  // sound settings
   h+=renderSoundSettings();
 
-  // cycle options
   h+='<div><h2 class="section-title">'+ICONS.sparkles+' أوقات بداية النوم المقترحة</h2>';
   h+='<div class="cycle-grid">';
   cycleOpts.forEach(function(opt){
@@ -510,7 +485,6 @@ function renderSetup(){
   });
   h+='</div></div>';
 
-  // summary + arm
   if(selectedOpt){
     h+='<div class="card"><div class="summary-row">';
     h+='<div class="summary-item">'+ICONS.moon+'<span>النوم في</span><span class="val">'+formatTimeAr(selectedOpt.bedtime)+'</span></div>';
@@ -579,7 +553,6 @@ function renderDone(){
   return h;
 }
 
-/* ===== Event Handlers & Binding ===== */
 function attachListeners(){
   var wakeInput=document.getElementById('wakeTimeInput');
   if(wakeInput){
@@ -616,7 +589,6 @@ function attachListeners(){
     });
   }
 
-  // Dropdown & Sound Events
   var dropdownToggle=document.getElementById('dropdownToggle');
   if(dropdownToggle){
     dropdownToggle.addEventListener('click',function(){
@@ -767,14 +739,9 @@ function stopClock(){
   alarmIntervalId=null;
 }
 
-// Initial load check if ringing already missed or active
-if(state.phase !== 'setup' && state.phase !== 'done'){
-  var tNow = state.now.getTime();
-  if(state.finalAlarmAt && tNow >= state.finalAlarmAt.getTime()){
-    state.phase = 'final-ringing';
-  } else if(state.phase === 'armed' && state.firstAlarmAt && tNow >= state.firstAlarmAt.getTime()){
-    state.phase = 'ringing';
-  }
+// Trigger ringing sound immediately if loaded during an active alarm state
+if(state.phase === 'ringing' || state.phase === 'final-ringing'){
+  stopSoundFn = startAlarmSound(state.sound, state.volume);
 }
 
 startClock();
