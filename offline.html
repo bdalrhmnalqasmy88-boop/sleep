@@ -390,11 +390,11 @@ function render(){
   } else if(state.phase==='armed'){
     html+=renderArmed();
   } else if(state.phase==='ringing'){
-    html+=renderRinging('حان وقت النوم','المنبه الأول — ابدأ نومك الآن',ICONS.bellRing,'handleDismissFirst()');
+    html+=renderRinging('حان وقت النوم','المنبه الأول — ابدأ نومك الآن',ICONS.bellRing,'handleDismissFirst');
   } else if(state.phase==='slept'){
     html+=renderSleeping();
   } else if(state.phase==='final-ringing'){
-    html+=renderRinging('موعد الاستيقاظ','اكتملت دورة نوم سليمة — استيقظ بنشاط',ICONS.sunrise,'handleDismissFinal()');
+    html+=renderRinging('موعد الاستيقاظ','اكتملت دورة نوم سليمة — استيقظ بنشاط',ICONS.sunrise,'handleDismissFinal');
   } else if(state.phase==='done'){
     html+=renderDone();
   }
@@ -427,7 +427,6 @@ function render(){
 function generateStars(){
   var sf=document.getElementById('starfield');
   if(!sf)return;
-  // remove existing stars
   var existing=sf.querySelectorAll('.star');
   existing.forEach(function(s){s.remove()});
   for(var i=0;i<60;i++){
@@ -487,276 +486,245 @@ function renderSetup(){
 }
 
 function renderSoundSettings(){
-  var selected=ALARM_SOUNDS.filter(function(s){return s.id===state.sound})[0];
-  var volPct=Math.round(state.volume*100);
-  var h='';
-  h+='<div class="settings-card"><div class="settings-title">'+ICONS.music+' إعدادات نغمة المنبه</div>';
-  h+='<label class="settings-label">نوع النغمة</label>';
+  var selected=ALARM_SOUNDS.filter(function(s){return s.id===state.sound})[0]||ALARM_SOUNDS[0];
+  var h='<div class="settings-card"><h2 class="settings-title">'+ICONS.music+' إعدادات الصوت</h2>';
+  h+='<label class="settings-label">نغمة المنبه</label>';
   h+='<div class="dropdown">';
-  h+='<button class="dropdown-btn" id="dropdownBtn">'+selected.label+'<span class="'+(state.dropdownOpen?'open':'')+'">'+ICONS.chevronDown+'</span></button>';
+  h+='<button class="dropdown-btn" id="dropdownToggle"><span>'+selected.label+' — '+selected.description+'</span>'+ICONS.chevronDown+'</button>';
   if(state.dropdownOpen){
     h+='<div class="dropdown-overlay" id="dropdownOverlay"></div>';
     h+='<div class="dropdown-menu">';
     ALARM_SOUNDS.forEach(function(s){
-      h+='<button class="dropdown-item'+(s.id===state.sound?' active':'')+'" data-sound="'+s.id+'"><span class="item-label">'+s.label+'</span><span class="item-desc">'+s.description+'</span></button>';
+      var active=s.id===state.sound;
+      h+='<button class="dropdown-item'+(active?' active':'')+'" data-sound="'+s.id+'"><span class="item-label">'+s.label+'</span><span class="item-desc">'+s.description+'</span></button>';
     });
     h+='</div>';
   }
   h+='</div>';
-  h+='<button class="btn-preview'+(state.previewing?' playing':'')+'" id="previewBtn">'+(state.previewing?ICONS.square+' إيقاف المعاينة':ICONS.play+' تجربة الصوت')+'</button>';
-  h+='<div class="volume-row"><span>'+(volPct>=66?ICONS.volume2:ICONS.volume1)+' مستوى الصوت</span><span class="volume-pct">'+volPct+'%</span></div>';
-  h+='<input type="range" min="0" max="100" value="'+volPct+'" id="volumeSlider" class="volume-slider" />';
-  h+='<div class="volume-range-labels"><span>صامت</span><span>أعلى حد</span></div>';
+  h+='<button class="btn-preview '+(state.previewing?'playing':'')+'" id="previewBtn">'+(state.previewing?ICONS.square+' إيقاف المعاينة':ICONS.play+' معاينة الصوت')+'</button>';
+  h+='<div class="volume-row"><span>'+ICONS.volume2+' مستوى الصوت</span><span class="volume-pct">'+Math.round(state.volume*100)+'%</span></div>';
+  h+='<input type="range" min="0" max="1" step="0.05" value="'+state.volume+'" class="volume-slider" id="volumeSlider" />';
+  h+='<div class="volume-range-labels"><span>هادئ</span><span>عالي</span></div>';
   h+='</div>';
   return h;
 }
 
 function renderArmed(){
-  var h='';
-  h+='<div class="pulse-wrap"><span class="pulse-ring"></span><span class="pulse-ring delay"></span><div class="pulse-core">'+ICONS.bell+'</div></div>';
-  h+='<div><p class="countdown-label">المنبه الأول يرن بعد</p><p class="countdown">'+formatCountdown(state.countdownToFirst)+'</p></div>';
-  h+='<div class="info-grid">';
-  h+='<div class="info-tile"><div class="info-icon">'+ICONS.bed+'</div><div><p class="info-label">وقت النوم</p><p class="info-value">'+formatTimeAr(state.firstAlarmAt)+'</p></div></div>';
-  h+='<div class="info-tile"><div class="info-icon">'+ICONS.sunrise+'</div><div><p class="info-label">وقت الاستيقاظ</p><p class="info-value">'+formatTimeAr(state.finalAlarmAt)+'</p></div></div>';
+  var h='<div class="card center"><div class="pulse-wrap"><div class="pulse-ring"></div><div class="pulse-ring delay"></div><div class="pulse-core">'+ICONS.bellRing+'</div></div>';
+  h+='<p class="countdown-label">الوقت المتبقي حتى المنبه الأول (بداية النوم)</p>';
+  h+='<div class="countdown">'+formatCountdown(state.countdownToFirst)+'</div>';
+  h+='<div class="info-grid mt-16">';
+  h+='<div class="info-tile"><div class="info-icon">'+ICONS.bed+'</div><div><p class="info-label">موعد موعد النوم</p><p class="info-value">'+formatTimeAr(state.firstAlarmAt)+'</p></div></div>';
+  h+='<div class="info-tile"><div class="info-icon">'+ICONS.sunrise+'</div><div><p class="info-label">الاستيقاظ النهائي</p><p class="info-value">'+formatTimeAr(state.finalAlarmAt)+'</p></div></div>';
   h+='</div>';
-  var selOpt=getSelectedOpt();
-  var cycles=selOpt?selOpt.cycles:0;
-  h+='<div class="status-bar">'+ICONS.star+' '+cycles+' دورات نوم مكتملة · '+formatDuration(cycles*CYCLE_MINUTES)+'</div>';
-  h+='<button class="btn-cancel" onclick="window._app.handleReset()">'+ICONS.rotateCcw+' إلغاء</button>';
+  h+='<div class="mt-16"><button class="btn-cancel" id="cancelBtn">'+ICONS.rotateCcw+' إلغاء المنبه</button></div></div>';
   return h;
 }
 
-function renderRinging(title,sub,icon,dismissFn){
-  var h='';
-  h+='<div class="ringing">';
-  h+='<div class="pulse-wrap pulse-wrap-gold"><span class="pulse-ring pulse-ring-gold"></span><span class="pulse-ring pulse-ring-gold delay"></span><div class="pulse-core pulse-core-gold">'+icon+'</div></div>';
-  h+='<div><h2 class="ringing-title">'+title+'</h2><p class="ringing-sub">'+sub+'</p></div>';
-  h+='<button class="btn-gold" onclick="window._app.'+dismissFn+'">إيقاف المنبه</button>';
-  h+='</div>';
+function renderRinging(title,sub,iconHtml,handlerName){
+  var h='<div class="card ringing"><div class="pulse-wrap pulse-wrap-gold"><div class="pulse-ring pulse-ring-gold"></div><div class="pulse-ring pulse-ring-gold delay"></div><div class="pulse-core pulse-core-gold">'+iconHtml+'</div></div>';
+  h+='<h2 class="ringing-title">'+title+'</h2><p class="ringing-sub">'+sub+'</p>';
+  h+='<button class="btn-gold" id="actionBtn" data-handler="'+handlerName+'">إيقاف المنبه</button></div>';
   return h;
 }
 
 function renderSleeping(){
-  var h='';
-  h+='<div class="sleeping">';
-  h+='<div class="moon-big">'+ICONS.moon+'</div>';
-  h+='<div><h2 class="sleeping-title">نوم هانئ…</h2><p class="sleeping-sub">تم تسجيل بدء النوم. المنبه النهائي مضبوط على</p><p class="sleeping-wake">'+formatTimeAr(state.finalAlarmAt)+'</p></div>';
-  h+='<div class="sleeping-countdown-card"><p class="countdown-label">الاستيقاظ بعد</p><p class="countdown">'+formatCountdown(state.countdownToFinal)+'</p></div>';
-  h+='<button class="btn-cancel" onclick="window._app.handleReset()">'+ICONS.rotateCcw+' إلغاء</button>';
-  h+='</div>';
+  var h='<div class="sleeping"><div class="moon-big">'+ICONS.moon+'</div>';
+  h+='<h2 class="sleeping-title">تتبع النوم نشط</h2><p class="sleeping-sub">تطوف الآن في دورات نومك.. نَم بهدوء</p>';
+  h+='<div class="sleeping-countdown-card"><p class="countdown-label">المتبقي على الاستيقاظ</p><div class="countdown">'+formatCountdown(state.countdownToFinal)+'</div><p class="sleeping-wake mt-16">موعد الاستيقاظ: '+formatTimeAr(state.finalAlarmAt)+'</p></div>';
+  h+='<button class="btn-cancel" id="cancelBtn">'+ICONS.rotateCcw+' إلغاء الجلسة</button></div>';
   return h;
 }
 
 function renderDone(){
-  var selOpt=getSelectedOpt();
-  var cycles=selOpt?selOpt.cycles:0;
-  var dur=selOpt?formatDuration(selOpt.durationMin):'';
-  var h='';
-  h+='<div class="done-view">';
-  h+='<div class="done-icon">'+ICONS.checkCircle+'</div>';
-  h+='<div><h2 class="done-title">صباح الخير!</h2><p class="done-sub">أكملت '+cycles+' دورات نوم · '+dur+'</p><p class="done-accent">نوم سليم يبدأ بدورة مكتملة</p></div>';
-  h+='<button class="btn-reset" onclick="window._app.handleReset()">'+ICONS.rotateCcw+' جلسة نوم جديدة</button>';
-  h+='</div>';
+  var h='<div class="done-view"><div class="done-icon">'+ICONS.checkCircle+'</div>';
+  h+='<h2 class="done-title">صباح الخير والنشاط!</h2><p class="done-sub">أكملت دورة نومك بنجاح واستيقظت في الوقت المثالي.</p>';
+  h+='<p class="done-accent">'+ICONS.sparkles+' يومك مليء بالحيوية والطاقة</p>';
+  h+='<button class="btn-reset" id="resetBtn">'+ICONS.rotateCcw+' ضبط منبه جديد</button></div>';
   return h;
 }
 
-function getSelectedOpt(){
-  var opts=computeCycles(state.wakeTime,state.now);
-  for(var i=0;i<opts.length;i++){if(opts[i].cycles===state.selectedCycles)return opts[i]}
-  var n=nearestUpcoming(opts,state.now);
-  return n;
-}
-
-/* ===== Event Listeners ===== */
+/* ===== Event Handlers & Binding ===== */
 function attachListeners(){
-  var wt=document.getElementById('wakeTimeInput');
-  if(wt){wt.addEventListener('change',function(e){
-    state.wakeTime=e.target.value;
-    state.selectedCycles=0;
-    render();
-  })}
+  var wakeInput=document.getElementById('wakeTimeInput');
+  if(wakeInput){
+    wakeInput.addEventListener('change',function(e){
+      state.wakeTime=e.target.value;
+      state.selectedCycles=0;
+      render();
+    });
+  }
 
   var cycleBtns=document.querySelectorAll('.cycle-btn');
   cycleBtns.forEach(function(btn){
     btn.addEventListener('click',function(){
-      state.selectedCycles=parseInt(btn.dataset.cycles);
+      state.selectedCycles=parseInt(btn.getAttribute('data-cycles'),10);
       render();
     });
   });
 
   var armBtn=document.getElementById('armBtn');
-  if(armBtn)armBtn.addEventListener('click',handleArm);
+  if(armBtn) armBtn.addEventListener('click',handleArm);
 
-  var ddBtn=document.getElementById('dropdownBtn');
-  if(ddBtn)ddBtn.addEventListener('click',function(){
-    state.dropdownOpen=!state.dropdownOpen;
-    render();
-  });
+  var cancelBtn=document.getElementById('cancelBtn');
+  if(cancelBtn) cancelBtn.addEventListener('click',handleCancel);
 
-  var ddOverlay=document.getElementById('dropdownOverlay');
-  if(ddOverlay)ddOverlay.addEventListener('click',function(){
-    state.dropdownOpen=false;
-    render();
-  });
+  var resetBtn=document.getElementById('resetBtn');
+  if(resetBtn) resetBtn.addEventListener('click',handleReset);
 
-  var ddItems=document.querySelectorAll('.dropdown-item');
-  ddItems.forEach(function(btn){
-    btn.addEventListener('click',function(){
-      state.sound=btn.dataset.sound;
+  var actionBtn=document.getElementById('actionBtn');
+  if(actionBtn){
+    actionBtn.addEventListener('click',function(){
+      var hName=actionBtn.getAttribute('data-handler');
+      if(hName==='handleDismissFirst') handleDismissFirst();
+      if(hName==='handleDismissFinal') handleDismissFinal();
+    });
+  }
+
+  // Dropdown & Sound Events
+  var dropdownToggle=document.getElementById('dropdownToggle');
+  if(dropdownToggle){
+    dropdownToggle.addEventListener('click',function(){
+      state.dropdownOpen=!state.dropdownOpen;
+      render();
+    });
+  }
+
+  var dropdownOverlay=document.getElementById('dropdownOverlay');
+  if(dropdownOverlay){
+    dropdownOverlay.addEventListener('click',function(){
       state.dropdownOpen=false;
-      if(state.previewing)stopPreview();
+      render();
+    });
+  }
+
+  var dropdownItems=document.querySelectorAll('.dropdown-item');
+  dropdownItems.forEach(function(item){
+    item.addEventListener('click',function(){
+      state.sound=item.getAttribute('data-sound');
+      state.dropdownOpen=false;
       render();
     });
   });
 
   var previewBtn=document.getElementById('previewBtn');
-  if(previewBtn)previewBtn.addEventListener('click',handlePreview);
+  if(previewBtn){
+    previewBtn.addEventListener('click',function(){
+      if(state.previewing){
+        if(stopPreviewFn)stopPreviewFn();
+        state.previewing=false;
+      } else {
+        stopPreviewFn=previewSound(state.sound,state.volume);
+        state.previewing=true;
+        setTimeout(function(){
+          state.previewing=false;
+          render();
+        },2000);
+      }
+      render();
+    });
+  }
 
-  var volSlider=document.getElementById('volumeSlider');
-  if(volSlider)volSlider.addEventListener('input',function(e){
-    state.volume=parseInt(e.target.value)/100;
-    render();
-  });
+  var volumeSlider=document.getElementById('volumeSlider');
+  if(volumeSlider){
+    volumeSlider.addEventListener('input',function(e){
+      state.volume=parseFloat(e.target.value);
+      var pct=document.querySelector('.volume-pct');
+      if(pct)pct.textContent=Math.round(state.volume*100)+'%';
+    });
+  }
 }
 
-/* ===== Actions ===== */
 function handleArm(){
-  var selOpt=getSelectedOpt();
-  if(!selOpt)return;
-  state.firstAlarmAt=selOpt.bedtime;
-  state.finalAlarmAt=selOpt.wakeTime;
+  var opts=computeCycles(state.wakeTime,state.now);
+  var selected=null;
+  for(var i=0;i<opts.length;i++){if(opts[i].cycles===state.selectedCycles){selected=opts[i];break}}
+  if(!selected)selected=opts[0];
+
+  state.firstAlarmAt=selected.bedtime;
+  state.finalAlarmAt=selected.wakeTime;
   state.phase='armed';
+  state.error=null;
   firedFirst=false;
   firedFinal=false;
-  startAlarmTick();
 
-  var session={
-    id:Date.now().toString(36)+Math.random().toString(36).substr(2,5),
-    wake_time:state.wakeTime,
-    bedtime:selOpt.bedtime.toISOString(),
-    final_wake:selOpt.wakeTime.toISOString(),
-    cycles:selOpt.cycles,
-    duration_min:selOpt.durationMin,
-    completed:false,
-    created_at:new Date().toISOString()
-  };
-  saveSession(session);
-  state.sessionId=session.id;
+  var sid='session_'+Date.now();
+  state.sessionId=sid;
+  saveSession({
+    id:sid,
+    bedtime:selected.bedtime.toISOString(),
+    final_wake:selected.wakeTime.toISOString(),
+    cycles:selected.cycles,
+    duration_min:selected.durationMin,
+    completed:false
+  });
   state.history=loadHistory();
+
+  startClock();
   render();
 }
 
-function handleDismissFirst(){
-  stopAlarmSound();
-  state.phase='slept';
-  if(state.sessionId){
-    updateSession(state.sessionId,{bedtime:new Date().toISOString()});
-  }
-  render();
-}
-
-function handleDismissFinal(){
-  stopAlarmSound();
-  state.phase='done';
-  if(state.sessionId){
-    updateSession(state.sessionId,{completed:true});
-    state.history=loadHistory();
-  }
+function handleCancel(){
+  if(stopSoundFn)stopSoundFn();
+  stopClock();
+  state.phase='setup';
   render();
 }
 
 function handleReset(){
-  stopAlarmSound();
-  stopAlarmTick();
   state.phase='setup';
-  state.firstAlarmAt=null;
-  state.finalAlarmAt=null;
-  state.sessionId=null;
-  state.selectedCycles=0;
-  firedFirst=false;
-  firedFinal=false;
   render();
 }
 
-function handlePreview(){
-  if(state.previewing){
-    stopPreview();
-    return;
+function handleDismissFirst(){
+  if(stopSoundFn)stopSoundFn();
+  state.phase='slept';
+  render();
+}
+
+function handleDismissFinal(){
+  if(stopSoundFn)stopSoundFn();
+  if(state.sessionId){
+    updateSession(state.sessionId,{completed:true});
+    state.history=loadHistory();
   }
-  stopPreviewFn=previewSound(state.sound,state.volume);
-  state.previewing=true;
-  render();
-  setTimeout(function(){
-    stopPreview();
-  },1600);
-}
-
-function stopPreview(){
-  if(stopPreviewFn){stopPreviewFn();stopPreviewFn=null}
-  state.previewing=false;
+  state.phase='done';
   render();
 }
 
-/* ===== Alarm Tick ===== */
-function startAlarmTick(){
-  stopAlarmTick();
+function startClock(){
+  stopClock();
   alarmIntervalId=setInterval(function(){
     state.now=new Date();
     var t=state.now.getTime();
 
-    if(state.phase==='armed' && state.firstAlarmAt && !firedFirst && t>=state.firstAlarmAt.getTime()){
-      firedFirst=true;
-      state.phase='ringing';
-      startAlarmSoundLoop();
-      render();
+    if(state.phase==='armed' && !firedFirst && state.firstAlarmAt){
+      if(t>=state.firstAlarmAt.getTime()){
+        firedFirst=true;
+        state.phase='ringing';
+        stopSoundFn=startAlarmSound(state.sound,state.volume);
+      }
     }
 
-    if(state.phase==='slept' && state.finalAlarmAt && !firedFinal && t>=state.finalAlarmAt.getTime()){
-      firedFinal=true;
-      state.phase='final-ringing';
-      startAlarmSoundLoop();
-      render();
+    if((state.phase==='slept' || state.phase==='armed') && !firedFinal && state.finalAlarmAt){
+      if(t>=state.finalAlarmAt.getTime()){
+        firedFinal=true;
+        state.phase='final-ringing';
+        stopSoundFn=startAlarmSound(state.sound,state.volume);
+      }
     }
-  },250);
+
+    render();
+  },1000);
 }
 
-function stopAlarmTick(){
-  if(alarmIntervalId){clearInterval(alarmIntervalId);alarmIntervalId=null}
+function stopClock(){
+  if(alarmIntervalId)clearInterval(alarmIntervalId);
+  alarmIntervalId=null;
 }
 
-function startAlarmSoundLoop(){
-  stopAlarmSound();
-  stopSoundFn=startAlarmSound(state.sound,state.volume);
-}
-
-function stopAlarmSound(){
-  if(stopSoundFn){stopSoundFn();stopSoundFn=null}
-}
-
-/* ===== Live Clock ===== */
-setInterval(function(){
-  state.now=new Date();
-  // only re-render the header clock during setup to avoid disrupting other phases
-  if(state.phase==='setup'||state.phase==='armed'||state.phase==='slept'){
-    var ct=document.querySelector('.clock-time');
-    if(ct)ct.textContent=formatTimeAr(state.now);
-    var cd=document.querySelector('.clock-date');
-    if(cd)cd.textContent=state.now.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'});
-
-    // update countdown displays
-    if(state.phase==='armed'){
-      var cd1=document.querySelector('.countdown');
-      if(cd1){state.countdownToFirst=state.firstAlarmAt?state.firstAlarmAt.getTime()-state.now.getTime():0;cd1.textContent=formatCountdown(state.countdownToFirst)}
-    }
-    if(state.phase==='slept'){
-      var cd2=document.querySelector('.countdown');
-      if(cd2){state.countdownToFinal=state.finalAlarmAt?state.finalAlarmAt.getTime()-state.now.getTime():0;cd2.textContent=formatCountdown(state.countdownToFinal)}
-    }
-  }
-},1000);
-
-/* ===== Init ===== */
-window._app={handleReset:handleReset,handleDismissFirst:handleDismissFirst,handleDismissFinal:handleDismissFinal};
+// Initial load
+startClock();
 render();
 
 })();
