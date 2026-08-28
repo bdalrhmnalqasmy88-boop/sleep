@@ -117,10 +117,6 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .info-label{font-size:11px;color:rgba(163,179,255,0.6)}
 .info-value{font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums}
 
-/* ===== Status Bar ===== */
-.status-bar{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:12px 16px;font-size:14px;color:#c8d3ff}
-.status-bar svg{width:16px;height:16px;color:#fcd34d}
-
 /* ===== Ringing View ===== */
 .ringing{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0}
 .ringing-title{font-size:24px;font-weight:700;color:#f3f6ff;text-align:center}
@@ -322,7 +318,43 @@ function previewSound(sound,volume){
   return function(){setTimeout(function(){try{ctx.close()}catch(e){}},100)};
 }
 
-/* ===== localStorage History ===== */
+/* ===== Persistent State Storage ===== */
+function saveActiveState(st){
+  var data={
+    phase:st.phase,
+    wakeTime:st.wakeTime,
+    firstAlarmAt:st.firstAlarmAt?st.firstAlarmAt.toISOString():null,
+    finalAlarmAt:st.finalAlarmAt?st.finalAlarmAt.toISOString():null,
+    selectedCycles:st.selectedCycles,
+    sessionId:st.sessionId,
+    sound:st.sound,
+    volume:st.volume
+  };
+  localStorage.setItem('sleep_active_state',JSON.stringify(data));
+}
+
+function loadActiveState(){
+  try{
+    var raw=localStorage.getItem('sleep_active_state');
+    if(!raw)return null;
+    var d=JSON.parse(raw);
+    return{
+      phase:d.phase||'setup',
+      wakeTime:d.wakeTime||'08:30',
+      firstAlarmAt:d.firstAlarmAt?new Date(d.firstAlarmAt):null,
+      finalAlarmAt:d.finalAlarmAt?new Date(d.finalAlarmAt):null,
+      selectedCycles:d.selectedCycles||0,
+      sessionId:d.sessionId||null,
+      sound:d.sound||'high',
+      volume:d.volume!==undefined?d.volume:0.8
+    };
+  }catch(e){return null}
+}
+
+function clearActiveState(){
+  localStorage.removeItem('sleep_active_state');
+}
+
 function loadHistory(){
   try{var d=JSON.parse(localStorage.getItem('sleep_sessions')||'[]');return d.slice(0,5)}catch(e){return[]}
 }
@@ -340,24 +372,27 @@ function updateSession(id,updates){
   localStorage.setItem('sleep_sessions',JSON.stringify(list));
 }
 
-/* ===== State ===== */
+/* ===== State Setup ===== */
+var savedSt = loadActiveState();
+
 var state = {
-  wakeTime:'08:30',
+  wakeTime: savedSt ? savedSt.wakeTime : '08:30',
   now:new Date(),
-  phase:'setup',
-  firstAlarmAt:null,
-  finalAlarmAt:null,
-  selectedCycles:0,
-  sessionId:null,
+  phase: savedSt ? savedSt.phase : 'setup',
+  firstAlarmAt: savedSt ? savedSt.firstAlarmAt : null,
+  finalAlarmAt: savedSt ? savedSt.finalAlarmAt : null,
+  selectedCycles: savedSt ? savedSt.selectedCycles : 0,
+  sessionId: savedSt ? savedSt.sessionId : null,
   history:loadHistory(),
   error:null,
-  sound:'high',
-  volume:0.8,
+  sound: savedSt ? savedSt.sound : 'high',
+  volume: savedSt ? savedSt.volume : 0.8,
   dropdownOpen:false,
   previewing:false,
   countdownToFirst:0,
   countdownToFinal:0
 };
+
 var stopSoundFn=null;
 var stopPreviewFn=null;
 var alarmIntervalId=null;
@@ -514,7 +549,7 @@ function renderArmed(){
   h+='<p class="countdown-label">الوقت المتبقي حتى المنبه الأول (بداية النوم)</p>';
   h+='<div class="countdown">'+formatCountdown(state.countdownToFirst)+'</div>';
   h+='<div class="info-grid mt-16">';
-  h+='<div class="info-tile"><div class="info-icon">'+ICONS.bed+'</div><div><p class="info-label">موعد موعد النوم</p><p class="info-value">'+formatTimeAr(state.firstAlarmAt)+'</p></div></div>';
+  h+='<div class="info-tile"><div class="info-icon">'+ICONS.bed+'</div><div><p class="info-label">موعد النوم</p><p class="info-value">'+formatTimeAr(state.firstAlarmAt)+'</p></div></div>';
   h+='<div class="info-tile"><div class="info-icon">'+ICONS.sunrise+'</div><div><p class="info-label">الاستيقاظ النهائي</p><p class="info-value">'+formatTimeAr(state.finalAlarmAt)+'</p></div></div>';
   h+='</div>';
   h+='<div class="mt-16"><button class="btn-cancel" id="cancelBtn">'+ICONS.rotateCcw+' إلغاء المنبه</button></div></div>';
@@ -603,6 +638,7 @@ function attachListeners(){
     item.addEventListener('click',function(){
       state.sound=item.getAttribute('data-sound');
       state.dropdownOpen=false;
+      saveActiveState(state);
       render();
     });
   });
@@ -631,6 +667,7 @@ function attachListeners(){
       state.volume=parseFloat(e.target.value);
       var pct=document.querySelector('.volume-pct');
       if(pct)pct.textContent=Math.round(state.volume*100)+'%';
+      saveActiveState(state);
     });
   }
 }
@@ -660,6 +697,7 @@ function handleArm(){
   });
   state.history=loadHistory();
 
+  saveActiveState(state);
   startClock();
   render();
 }
@@ -667,11 +705,13 @@ function handleArm(){
 function handleCancel(){
   if(stopSoundFn)stopSoundFn();
   stopClock();
+  clearActiveState();
   state.phase='setup';
   render();
 }
 
 function handleReset(){
+  clearActiveState();
   state.phase='setup';
   render();
 }
@@ -679,6 +719,7 @@ function handleReset(){
 function handleDismissFirst(){
   if(stopSoundFn)stopSoundFn();
   state.phase='slept';
+  saveActiveState(state);
   render();
 }
 
@@ -688,6 +729,7 @@ function handleDismissFinal(){
     updateSession(state.sessionId,{completed:true});
     state.history=loadHistory();
   }
+  clearActiveState();
   state.phase='done';
   render();
 }
@@ -702,6 +744,7 @@ function startClock(){
       if(t>=state.firstAlarmAt.getTime()){
         firedFirst=true;
         state.phase='ringing';
+        saveActiveState(state);
         stopSoundFn=startAlarmSound(state.sound,state.volume);
       }
     }
@@ -710,6 +753,7 @@ function startClock(){
       if(t>=state.finalAlarmAt.getTime()){
         firedFinal=true;
         state.phase='final-ringing';
+        saveActiveState(state);
         stopSoundFn=startAlarmSound(state.sound,state.volume);
       }
     }
@@ -723,7 +767,16 @@ function stopClock(){
   alarmIntervalId=null;
 }
 
-// Initial load
+// Initial load check if ringing already missed or active
+if(state.phase !== 'setup' && state.phase !== 'done'){
+  var tNow = state.now.getTime();
+  if(state.finalAlarmAt && tNow >= state.finalAlarmAt.getTime()){
+    state.phase = 'final-ringing';
+  } else if(state.phase === 'armed' && state.firstAlarmAt && tNow >= state.firstAlarmAt.getTime()){
+    state.phase = 'ringing';
+  }
+}
+
 startClock();
 render();
 
