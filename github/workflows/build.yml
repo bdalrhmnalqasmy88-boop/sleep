@@ -8,30 +8,122 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Unzip project files
+      - name: Check ZIP files
         run: |
-          [ -f android.zip ] && unzip -o android.zip -d .
-          [ -f src.zip ] && unzip -o src.zip -d .
-          [ -f supabase.zip ] && unzip -o supabase.zip -d .
+          echo "Files in repository:"
+          ls -lah
+
+          test -f android.zip || {
+            echo "ERROR: android.zip not found"
+            exit 1
+          }
+
+          test -f src.zip || {
+            echo "ERROR: src.zip not found"
+            exit 1
+          }
+
+      - name: Extract Android project
+        run: |
+          echo "Extracting android.zip..."
+          unzip -o android.zip -d .
+
+          echo "Searching for Android project..."
+          find . -maxdepth 3 -name gradlew -type f -print
+
+          if [ ! -f android/gradlew ]; then
+            echo "Android folder not found in expected location."
+
+            if [ -d android/android ]; then
+              echo "Moving nested android folder..."
+              mv android/android/* android/
+              mv android/android/.[!.]* android/ 2>/dev/null || true
+            fi
+          fi
+
+          test -f android/gradlew || {
+            echo "ERROR: android/gradlew not found"
+            echo "Android ZIP structure:"
+            find . -maxdepth 4 -type f | head -200
+            exit 1
+          }
+
+      - name: Extract source files
+        run: |
+          echo "Extracting src.zip..."
+          unzip -o src.zip -d .
+
+          echo "Checking source folder..."
+          test -f src/App.tsx || {
+            echo "ERROR: src/App.tsx not found"
+            echo "Current source structure:"
+            find . -maxdepth 4 -type f | head -200
+            exit 1
+          }
+
+      - name: Extract Supabase files
+        run: |
+          if [ -f supabase.zip ]; then
+            echo "Extracting supabase.zip..."
+            unzip -o supabase.zip -d .
+          else
+            echo "supabase.zip not found - continuing..."
+          fi
+
+      - name: Show project structure
+        run: |
+          echo "===== SOURCE ====="
+          ls -lah src || true
+
+          echo "===== ANDROID ====="
+          ls -lah android || true
+
+          echo "===== PACKAGE ====="
+          test -f package.json && cat package.json
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: temurin
           java-version: '17'
 
-      - name: Build APK
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
         run: |
-          if [ -d "android" ]; then cd android; fi
+          npm install --no-audit --no-fund
+
+      - name: Build web application
+        run: |
+          npm run build
+
+      - name: Sync Capacitor Android
+        run: |
+          npx cap sync android
+
+      - name: Build Debug APK
+        run: |
+          cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Find APK
+        run: |
+          echo "===== APK FILES ====="
+          find . -type f -name "*.apk" -print
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SleepAlarm-APK
           path: '**/app-debug.apk'
+          if-no-files-found: error
