@@ -18,6 +18,17 @@ jobs:
           [ -f src.zip ] && unzip -o src.zip -d .
           [ -f supabase.zip ] && unzip -o supabase.zip -d .
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies & Sync Capacitor
+        run: |
+          npm ci || npm install
+          npm run build --if-present
+          npx cap sync android
+
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
@@ -26,7 +37,7 @@ jobs:
 
       - name: Build APK
         run: |
-          if [ -d "android" ]; then cd android; fi
+          cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
