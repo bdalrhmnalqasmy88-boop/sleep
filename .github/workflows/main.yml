@@ -18,6 +18,13 @@ jobs:
           [ -f src.zip ] && unzip -o src.zip -d .
           [ -f supabase.zip ] && unzip -o supabase.zip -d .
 
+      - name: Inject Alarm Permissions into AndroidManifest
+        run: |
+          MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST_PATH" ]; then
+            sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" \/>\n    <uses-permission android:name="android.permission.USE_EXACT_ALARM" \/>\n    <uses-permission android:name="android.permission.WAKE_LOCK" \/>\n    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" \/>\n    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" \/>' "$MANIFEST_PATH"
+          fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
