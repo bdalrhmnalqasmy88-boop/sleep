@@ -42,7 +42,6 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 
 .time-input{width:100%;border-radius:12px;border:1px solid #272e54;background:rgba(10,12,27,0.6);padding:16px;text-align:center;font-size:30px;font-weight:700;color:#f3f6ff;outline:none;transition:border-color .3s,box-shadow .3s;color-scheme:dark}
 .time-input:focus{border-color:#5a6bf0;box-shadow:0 0 40px -8px rgba(122,134,240,0.45)}
-.time-input::-webkit-calendar-picker-indicator{filter:invert(1) opacity(0.7);cursor:pointer}
 .hint{margin-top:12px;font-size:12px;color:rgba(163,179,255,0.6)}
 
 .section-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#c8d3ff;margin-bottom:12px}
@@ -69,24 +68,17 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .btn-arm{display:flex;width:100%;align-items:center;justify-content:center;gap:12px;border-radius:12px;background:linear-gradient(to left,#4350d6,#14b8a6);padding:16px;font-size:18px;font-weight:700;color:#fff;border:none;cursor:pointer;transition:transform .3s,box-shadow .3s;box-shadow:0 0 40px -8px rgba(94,234,212,0.5);font-family:inherit}
 .btn-arm:hover{transform:scale(1.02)}
 .btn-arm:active{transform:scale(.95)}
-.btn-arm svg{width:24px;height:24px;transition:transform .3s}
-.btn-arm:hover svg{transform:rotate(12deg)}
 
 .btn-gold{width:100%;border-radius:12px;background:linear-gradient(to left,#f59e0b,#fbbf24);padding:20px;font-size:20px;font-weight:700;color:#05060f;border:none;cursor:pointer;transition:transform .3s;box-shadow:0 0 50px -10px rgba(251,191,36,0.5);font-family:inherit}
 .btn-gold:hover{transform:scale(1.02)}
-.btn-gold:active{transform:scale(.95)}
 
-.btn-cancel{display:flex;align-items:center;gap:8px;border-radius:12px;border:1px solid #272e54;background:rgba(17,20,43,0.5);padding:12px 24px;font-size:14px;color:#c8d3ff;cursor:pointer;transition:background .3s;font-family:inherit;margin:0 auto}
-.btn-cancel:hover{background:rgba(26,31,61,0.5)}
-
-.btn-reset{display:flex;align-items:center;gap:8px;border-radius:12px;background:linear-gradient(to left,#4350d6,#14b8a6);padding:14px 32px;font-weight:700;color:#fff;border:none;cursor:pointer;transition:transform .3s;box-shadow:0 0 40px -8px rgba(94,234,212,0.5);font-family:inherit}
-.btn-reset:hover{transform:scale(1.02)}
-.btn-reset:active{transform:scale(.95)}
+.btn-cancel{display:flex;align-items:center;gap:8px;border-radius:12px;border:1px solid #272e54;background:rgba(17,20,43,0.5);padding:12px 24px;font-size:14px;color:#c8d3ff;cursor:pointer;font-family:inherit;margin:0 auto}
+.btn-reset{display:flex;align-items:center;gap:8px;border-radius:12px;background:linear-gradient(to left,#4350d6,#14b8a6);padding:14px 32px;font-weight:700;color:#fff;border:none;cursor:pointer;font-family:inherit}
 
 .pulse-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:128px;height:128px;margin:16px auto 0}
 .pulse-ring{position:absolute;inset:0;border-radius:50%;background:rgba(20,184,166,0.2);animation:pulseRing 1.8s cubic-bezier(.215,.61,.355,1) infinite}
 .pulse-ring.delay{animation-delay:.4s;inset:8px;background:rgba(20,184,166,0.1)}
-.pulse-core{position:relative;display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;border:1px solid rgba(94,234,212,0.4);background:rgba(17,20,43,0.6);backdrop-filter:blur(12px)}
+.pulse-core{position:relative;display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;border:1px solid rgba(94,234,212,0.4);background:rgba(17,20,43,0.6)}
 .pulse-core svg{width:40px;height:40px;color:#5eead4}
 
 .pulse-wrap-gold{width:160px;height:160px}
@@ -99,9 +91,8 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .countdown{text-align:center;font-family:monospace;font-size:36px;font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums;margin-top:4px}
 
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
-.info-tile{display:flex;align-items:center;gap:12px;border-radius:12px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:12px 16px;backdrop-filter:blur(4px)}
+.info-tile{display:flex;align-items:center;gap:12px;border-radius:12px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:12px 16px}
 .info-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:rgba(26,31,61,0.4);color:#a3b3ff}
-.info-icon svg{width:20px;height:20px}
 .info-label{font-size:11px;color:rgba(163,179,255,0.6)}
 .info-value{font-weight:700;color:#f3f6ff;font-variant-numeric:tabular-nums}
 
@@ -115,26 +106,21 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .sleeping-title{font-size:20px;font-weight:700;color:#f3f6ff;text-align:center}
 .sleeping-sub{text-align:center;font-size:14px;color:rgba(163,179,255,0.7)}
 .sleeping-wake{font-size:18px;font-weight:700;color:#fcd34d;text-align:center}
-.sleeping-countdown-card{width:100%;border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:24px;text-align:center;backdrop-filter:blur(12px)}
+.sleeping-countdown-card{width:100%;border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:24px;text-align:center}
 
 .done-view{display:flex;flex-direction:column;align-items:center;gap:24px;padding:32px 0}
-.done-icon{display:flex;align-items:center;justify-content:center;width:112px;height:112px;border-radius:50%;background:rgba(20,184,166,0.15);color:#5eead4;box-shadow:0 0 40px -8px rgba(94,234,212,0.5)}
-.done-icon svg{width:56px;height:56px}
+.done-icon{display:flex;align-items:center;justify-content:center;width:112px;height:112px;border-radius:50%;background:rgba(20,184,166,0.15);color:#5eead4}
 .done-title{font-size:24px;font-weight:700;color:#f3f6ff;text-align:center}
 .done-sub{font-size:14px;color:rgba(163,179,255,0.7);text-align:center}
 .done-accent{font-size:14px;color:#5eead4;text-align:center}
 
-.settings-card{border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);backdrop-filter:blur(12px);padding:20px}
+.settings-card{border-radius:16px;border:1px solid rgba(26,31,61,0.5);background:rgba(17,20,43,0.4);padding:20px}
 .settings-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#c8d3ff;margin-bottom:16px}
-.settings-title svg{width:16px;height:16px;color:#5eead4}
 .settings-label{display:block;font-size:12px;color:rgba(163,179,255,0.7);margin-bottom:6px}
 .dropdown{position:relative}
-.dropdown-btn{display:flex;width:100%;align-items:center;justify-content:space-between;border-radius:12px;border:1px solid #272e54;background:rgba(10,12,27,0.6);padding:12px 16px;font-size:14px;color:#f3f6ff;cursor:pointer;outline:none;transition:border-color .3s;font-family:inherit;text-align:right}
-.dropdown-btn:focus{border-color:#5a6bf0}
-.dropdown-btn svg{width:16px;height:16px;color:#a3b3ff;transition:transform .3s}
-.dropdown-btn svg.open{transform:rotate(180deg)}
-.dropdown-menu{position:absolute;z-index:30;margin-top:4px;width:100%;overflow:hidden;border-radius:12px;border:1px solid #272e54;background:#0a0c1b;box-shadow:0 0 40px -8px rgba(122,134,240,0.45)}
-.dropdown-item{display:flex;flex-direction:column;align-items:flex-start;width:100%;padding:12px 16px;text-align:right;border:none;background:transparent;cursor:pointer;transition:background .3s;font-family:inherit;color:inherit}
+.dropdown-btn{display:flex;width:100%;align-items:center;justify-content:space-between;border-radius:12px;border:1px solid #272e54;background:rgba(10,12,27,0.6);padding:12px 16px;font-size:14px;color:#f3f6ff;cursor:pointer;font-family:inherit;text-align:right}
+.dropdown-menu{position:absolute;z-index:30;margin-top:4px;width:100%;overflow:hidden;border-radius:12px;border:1px solid #272e54;background:#0a0c1b}
+.dropdown-item{display:flex;flex-direction:column;align-items:flex-start;width:100%;padding:12px 16px;text-align:right;border:none;background:transparent;cursor:pointer;color:inherit}
 .dropdown-item:hover{background:rgba(26,31,61,0.6)}
 .dropdown-item.active{background:rgba(20,184,166,0.1)}
 .dropdown-item .item-label{font-size:14px;font-weight:500;color:#e3e9ff}
@@ -142,31 +128,25 @@ body{background:#05060f;color:#e3e9ff;font-family:'Cairo','Tahoma','Segoe UI',sy
 .dropdown-item .item-desc{font-size:11px;color:rgba(163,179,255,0.6)}
 .dropdown-overlay{position:fixed;inset:0;z-index:20}
 
-.btn-preview{display:flex;width:100%;align-items:center;justify-content:center;gap:8px;border-radius:12px;border:1px solid #272e54;background:rgba(10,12,27,0.4);padding:10px 16px;font-size:14px;font-weight:500;color:#c8d3ff;cursor:pointer;transition:background .3s;font-family:inherit;margin-top:12px}
-.btn-preview:hover{background:rgba(26,31,61,0.4)}
+.btn-preview{display:flex;width:100%;align-items:center;justify-content:center;gap:8px;border-radius:12px;border:1px solid #272e54;background:rgba(10,12,27,0.4);padding:10px 16px;font-size:14px;font-weight:500;color:#c8d3ff;cursor:pointer;font-family:inherit;margin-top:12px}
 .btn-preview.playing{border-color:#5eead4;background:rgba(20,184,166,0.15);color:#5eead4}
 
 .volume-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(163,179,255,0.7);margin-top:20px;margin-bottom:8px}
-.volume-row svg{width:16px;height:16px}
 .volume-pct{font-family:monospace;font-weight:600;color:#e3e9ff}
 .volume-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(to left,#14b8a6,#5a6bf0);outline:none;cursor:pointer}
-.volume-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#e3e9ff;border:2px solid #14b8a6;box-shadow:0 0 10px rgba(20,184,166,0.5);cursor:pointer;transition:transform .15s}
-.volume-slider::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.volume-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:#e3e9ff;border:2px solid #14b8a6;cursor:pointer}
 .volume-range-labels{display:flex;justify-content:space-between;font-size:10px;color:rgba(163,179,255,0.4);margin-top:4px}
 
 .history-section{margin-top:32px}
 .history-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#c8d3ff;margin-bottom:12px}
-.history-title svg{width:16px;height:16px}
 .history-list{display:flex;flex-direction:column;gap:8px}
-.history-item{display:flex;align-items:center;justify-content:space-between;border-radius:12px;border:1px solid rgba(26,31,61,0.6);background:rgba(17,20,43,0.4);padding:12px 16px;backdrop-filter:blur(4px)}
+.history-item{display:flex;align-items:center;justify-content:space-between;border-radius:12px;border:1px solid rgba(26,31,61,0.6);background:rgba(17,20,43,0.4);padding:12px 16px}
 .history-left{display:flex;align-items:center;gap:12px}
 .history-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:rgba(51,63,171,0.3)}
-.history-icon svg{width:16px;height:16px;color:#a3b3ff}
 .history-time{font-size:14px;color:#e3e9ff}
 .history-meta{font-size:11px;color:rgba(163,179,255,0.6)}
 .history-badge{display:flex;align-items:center;gap:4px;font-size:12px}
 .history-badge.done{color:#5eead4}
-.history-badge.done svg{width:14px;height:14px}
 .history-badge.pending{color:rgba(163,179,255,0.5)}
 
 .error-box{border-radius:12px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.1);padding:8px 16px;font-size:14px;color:#fca5a5}
@@ -186,7 +166,6 @@ var ICONS = {
   moon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
   sunrise: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>',
   bed: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>',
-  bell: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 14.192 18 12.229 18 8A6 6 0 0 0 6 8c0 4.228-1.411 6.192-2.738 7.326"/></svg>',
   bellRing: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 14.192 18 12.229 18 8A6 6 0 0 0 6 8c0 4.228-1.411 6.192-2.738 7.326"/><path d="M22 8h-4"/><path d="M2 8h4"/><path d="M4 4 6 6"/><path d="M20 4l-2 2"/></svg>',
   alarmClock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M6.383 18.711 5 22"/><path d="m17.617 18.711 1.383 3.289"/></svg>',
   checkCircle: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>',
@@ -289,6 +268,7 @@ function previewSound(sound,volume){
   return function(){setTimeout(function(){try{ctx.close()}catch(e){}},100)};
 }
 
+// LocalStorage Persistence Layer
 function saveActiveState(st){
   var data={
     phase:st.phase,
@@ -344,22 +324,23 @@ function updateSession(id,updates){
 
 var savedSt = loadActiveState();
 
-// Smart Timestamp Verification on Startup
-var initialNow = new Date();
+// Bulletproof Real-Time Synchronization on App Startup / Reload
+var currentRealTime = new Date();
 var initialPhase = savedSt ? savedSt.phase : 'setup';
 var initialFirst = savedSt && savedSt.firstAlarmAt ? new Date(savedSt.firstAlarmAt) : null;
 var initialFinal = savedSt && savedSt.finalAlarmAt ? new Date(savedSt.finalAlarmAt) : null;
 
-if(initialPhase === 'armed' && initialFirst && initialNow.getTime() >= initialFirst.getTime()){
+// If time passed while the app was killed/closed, jump straight to the correct alert phase!
+if(initialPhase === 'armed' && initialFirst && currentRealTime.getTime() >= initialFirst.getTime()){
   initialPhase = 'ringing';
 }
-if((initialPhase === 'slept' || initialPhase === 'armed') && initialFinal && initialNow.getTime() >= initialFinal.getTime()){
+if((initialPhase === 'slept' || initialPhase === 'armed') && initialFinal && currentRealTime.getTime() >= initialFinal.getTime()){
   initialPhase = 'final-ringing';
 }
 
 var state = {
   wakeTime: savedSt ? savedSt.wakeTime : '08:30',
-  now: initialNow,
+  now: currentRealTime,
   phase: initialPhase,
   firstAlarmAt: initialFirst,
   finalAlarmAt: initialFinal,
@@ -378,20 +359,21 @@ var state = {
 var stopSoundFn=null;
 var stopPreviewFn=null;
 var alarmIntervalId=null;
-var firedFirst=false;
-var firedFinal=false;
 
 var root=document.getElementById('root');
 
 function render(){
-  state.countdownToFirst = state.firstAlarmAt ? state.firstAlarmAt.getTime()-state.now.getTime() : 0;
-  state.countdownToFinal = state.finalAlarmAt ? state.finalAlarmAt.getTime()-state.now.getTime() : 0;
+  // Always recalculate based on absolute system clock timestamp difference
+  var realNow = new Date();
+  state.now = realNow;
+  state.countdownToFirst = state.firstAlarmAt ? state.firstAlarmAt.getTime() - realNow.getTime() : 0;
+  state.countdownToFinal = state.finalAlarmAt ? state.finalAlarmAt.getTime() - realNow.getTime() : 0;
 
   var html='';
   html+='<div class="starfield" id="starfield"><div class="bg"></div><div class="nebula1"></div><div class="nebula2"></div></div>';
   html+='<div class="app">';
   html+='<header class="header"><div class="header-left"><div class="moon-icon">'+ICONS.moon+'</div><div><h1>منبه دورات النوم</h1><p>نَم بذكاء، استيقظ بنشاط</p></div></div>';
-  html+='<div class="header-right"><span class="clock-time">'+formatTimeAr(state.now)+'</span><span class="clock-date">'+state.now.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'})+'</span></div></header>';
+  html+='<div class="header-right"><span class="clock-time">'+formatTimeAr(realNow)+'</span><span class="clock-date">'+realNow.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'})+'</span></div></header>';
 
   if(state.error){
     html+='<div class="error-box">'+state.error+'</div>';
@@ -418,7 +400,7 @@ function render(){
   if(state.history.length>0 && state.phase==='setup'){
     html+='<section class="history-section"><h2 class="history-title">'+ICONS.clock+' آخر الجلسات</h2><div class="history-list">';
     state.history.forEach(function(s){
-      html+='<div class="history-item"><div class="history-left"><div class="history-icon">'+ICONS.moon+'</div><div><p class="history-time">استيقاظ '+formatTimeAr(new Date(s.final_wake))+'</p><p class="history-meta">'+s.cycles+' دورات · '+formatDuration(s.duration_min)+'</p></div></div>';
+      html+='<div class="history-item"><div class="history-left"><div class="history-icon">'+ICONS.clock+'</div><div><p class="history-time">استيقاظ '+formatTimeAr(new Date(s.final_wake))+'</p><p class="history-meta">'+s.cycles+' دورات · '+formatDuration(s.duration_min)+'</p></div></div>';
       if(s.completed){
         html+='<span class="history-badge done">'+ICONS.checkCircle+' مكتملة</span>';
       } else {
@@ -429,7 +411,7 @@ function render(){
     html+='</div></section>';
   }
 
-  html+='<footer class="footer">كل دورة نوم = '+CYCLE_MINUTES+' دقيقة · صُمّم لنوم أعمق وأصحّ</footer>';
+  html+='<footer class="footer">كل دورة نوم = '+CYCLE_MINUTES+' دقيقة · مصمم خصيصاً للعمل بثبات على الأندرويد</footer>';
   html+='</div>';
 
   root.innerHTML=html;
@@ -442,7 +424,7 @@ function generateStars(){
   if(!sf)return;
   var existing=sf.querySelectorAll('.star');
   existing.forEach(function(s){s.remove()});
-  for(var i=0;i<60;i++){
+  for(var i=0;i<50;i++){
     var star=document.createElement('span');
     star.className='star';
     star.style.top=Math.random()*100+'%';
@@ -645,7 +627,7 @@ function attachListeners(){
 }
 
 function handleArm(){
-  var opts=computeCycles(state.wakeTime,state.now);
+  var opts=computeCycles(state.wakeTime,new Date());
   var selected=null;
   for(var i=0;i<opts.length;i++){if(opts[i].cycles===state.selectedCycles){selected=opts[i];break}}
   if(!selected)selected=opts[0];
@@ -654,8 +636,6 @@ function handleArm(){
   state.finalAlarmAt=selected.wakeTime;
   state.phase='armed';
   state.error=null;
-  firedFirst=false;
-  firedFinal=false;
 
   var sid='session_'+Date.now();
   state.sessionId=sid;
@@ -670,13 +650,11 @@ function handleArm(){
   state.history=loadHistory();
 
   saveActiveState(state);
-  startClock();
   render();
 }
 
 function handleCancel(){
   if(stopSoundFn)stopSoundFn();
-  stopClock();
   clearActiveState();
   state.phase='setup';
   render();
@@ -706,46 +684,60 @@ function handleDismissFinal(){
   render();
 }
 
+// Robust Real-Time Tick Loop with Automatic System Sync
 function startClock(){
-  stopClock();
+  if(alarmIntervalId)clearInterval(alarmIntervalId);
   alarmIntervalId=setInterval(function(){
-    state.now=new Date();
-    var t=state.now.getTime();
-
-    if(state.phase==='armed' && !firedFirst && state.firstAlarmAt){
-      if(t>=state.firstAlarmAt.getTime()){
-        firedFirst=true;
+    var nowMs = Date.now();
+    
+    // Check if First Alarm reached
+    if(state.phase==='armed' && state.firstAlarmAt){
+      if(nowMs >= state.firstAlarmAt.getTime()){
         state.phase='ringing';
         saveActiveState(state);
-        stopSoundFn=startAlarmSound(state.sound,state.volume);
+        if(!stopSoundFn) stopSoundFn=startAlarmSound(state.sound,state.volume);
       }
     }
 
-    if((state.phase==='slept' || state.phase==='armed') && !firedFinal && state.finalAlarmAt){
-      if(t>=state.finalAlarmAt.getTime()){
-        firedFinal=true;
+    // Check if Final Alarm reached
+    if((state.phase==='slept' || state.phase==='armed') && state.finalAlarmAt){
+      if(nowMs >= state.finalAlarmAt.getTime()){
         state.phase='final-ringing';
         saveActiveState(state);
-        stopSoundFn=startAlarmSound(state.sound,state.volume);
+        if(!stopSoundFn) stopSoundFn=startAlarmSound(state.sound,state.volume);
       }
     }
 
     render();
-  },1000);
+  }, 1000);
 }
 
-function stopClock(){
-  if(alarmIntervalId)clearInterval(alarmIntervalId);
-  alarmIntervalId=null;
-}
-
-// Trigger ringing sound immediately if loaded during an active alarm state
+// Fire sound immediately if launched right into a ringing state
 if(state.phase === 'ringing' || state.phase === 'final-ringing'){
   stopSoundFn = startAlarmSound(state.sound, state.volume);
 }
 
 startClock();
 render();
+
+// Handle Android App Lifecycle / Visibility Re-sync
+document.addEventListener('visibilitychange', function(){
+  if(!document.hidden){
+    // When user returns to the app from background, instantly force re-check of time!
+    var nowMs = Date.now();
+    if(state.phase==='armed' && state.firstAlarmAt && nowMs >= state.firstAlarmAt.getTime()){
+      state.phase='ringing';
+      saveActiveState(state);
+      if(!stopSoundFn) stopSoundFn=startAlarmSound(state.sound,state.volume);
+    }
+    if((state.phase==='slept' || state.phase==='armed') && state.finalAlarmAt && nowMs >= state.finalAlarmAt.getTime()){
+      state.phase='final-ringing';
+      saveActiveState(state);
+      if(!stopSoundFn) stopSoundFn=startAlarmSound(state.sound,state.volume);
+    }
+    render();
+  }
+});
 
 })();
 </script>
