@@ -8,48 +8,54 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Unzip project files
+      - name: Check Project Structure
         run: |
-          [ -f android.zip ] && unzip -o android.zip -d .
-          [ -f src.zip ] && unzip -o src.zip -d .
-          [ -f supabase.zip ] && unzip -o supabase.zip -d .
+          echo "Checking project..."
 
-      - name: Inject Alarm Permissions into AndroidManifest
-        run: |
-          MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
-          if [ -f "$MANIFEST_PATH" ]; then
-            sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" \/>\n    <uses-permission android:name="android.permission.USE_EXACT_ALARM" \/>\n    <uses-permission android:name="android.permission.WAKE_LOCK" \/>\n    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" \/>\n    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" \/>\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" \/>' "$MANIFEST_PATH"
-          fi
+          test -f package.json
+          test -d src
+          test -d android
+
+          echo "Project structure OK"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
-      - name: Install Dependencies & Sync Capacitor
+      - name: Install Dependencies
         run: |
-          npm ci || npm install
-          npm run build --if-present
-          npx cap sync android
+          npm ci
+
+      - name: Build Web App
+        run: |
+          npm run build
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: temurin
           java-version: '21'
+          cache: gradle
 
-      - name: Build APK
+      - name: Sync Capacitor Android
+        run: |
+          npx cap sync android
+
+      - name: Build Debug APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SleepAlarm-APK
-          path: '**/app-debug.apk'
+          path: android/app/build/outputs/apk/debug/app-debug.apk
