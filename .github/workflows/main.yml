@@ -13,12 +13,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Check Project Structure
+      - name: Restore project folders from ZIP
         run: |
-          echo "Checking project..."
+          echo "Restoring project files..."
 
+          if [ -f "src.zip" ]; then
+            unzip -n src.zip -d .
+          fi
+
+          if [ -f "android.zip" ]; then
+            unzip -n android.zip -d .
+          fi
+
+          if [ -f "supabase.zip" ]; then
+            unzip -n supabase.zip -d .
+          fi
+
+          echo "Checking required files..."
           test -f package.json
-          test -d src
+          test -f index.html
+          test -f src/main.tsx
           test -d android
 
           echo "Project structure OK"
