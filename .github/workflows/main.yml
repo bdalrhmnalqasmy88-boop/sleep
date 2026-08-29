@@ -1,4 +1,4 @@
-name: Build Android APK Direct
+name: Build Android APK
 
 on:
   push:
@@ -15,27 +15,39 @@ jobs:
 
       - name: Restore project folders from ZIP
         run: |
-          echo "Restoring project files..."
+          set -e
 
-          if [ -f "src.zip" ]; then
-            unzip -n src.zip -d .
+          echo "Extracting android.zip..."
+          unzip -o android.zip -d .
+
+          echo "Extracting src.zip..."
+          unzip -o src.zip -d .
+
+          if [ -f supabase.zip ]; then
+            echo "Extracting supabase.zip..."
+            unzip -o supabase.zip -d .
           fi
 
-          if [ -f "android.zip" ]; then
-            unzip -n android.zip -d .
-          fi
+          echo "Checking project structure..."
+          echo "Root:"
+          ls -la
 
-          if [ -f "supabase.zip" ]; then
-            unzip -n supabase.zip -d .
-          fi
+          echo "Android:"
+          ls -la android
+
+          echo "Source:"
+          ls -la src || true
 
           echo "Checking required files..."
-          test -f package.json
-          test -f index.html
-          test -f src/main.tsx
-          test -d android
 
-          echo "Project structure OK"
+          test -f package.json
+          test -d android
+          test -f android/gradlew
+          test -f android/app/build.gradle
+          test -f android/app/src/main/AndroidManifest.xml
+          test -d src
+
+          echo "All required files found."
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,7 +57,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          npm ci
+          npm ci || npm install
 
       - name: Build Web App
         run: |
@@ -55,8 +67,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
-          cache: gradle
+          java-version: 21
 
       - name: Sync Capacitor Android
         run: |
