@@ -4,13 +4,15 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+
+import androidx.annotation.NonNull;
 
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -19,33 +21,39 @@ import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.PluginMethod;
 
+import android.content.ActivityNotFoundException;
+
 import java.util.HashSet;
 import java.util.Set;
 
 @CapacitorPlugin(name = "AlarmSound")
 public class AlarmSoundPlugin extends Plugin {
 
-    private static final String DEFAULT_CHANNEL_ID = "alarm-channel";
+    private static final String DEFAULT_CHANNEL_ID =
+            "alarm-channel";
 
-    private final Set<Integer> scheduledAlarmIds = new HashSet<>();
-
-    // ============================================================
-    // إنشاء قناة المنبه
-    // ============================================================
+    private final Set<Integer> scheduledAlarmIds =
+            new HashSet<>();
 
     @PluginMethod
     public void configureChannel(PluginCall call) {
 
-        String channelId = call.getString("channelId");
-        String soundUri = call.getString("soundUri");
+        String channelId =
+                call.getString("channelId");
 
-        if (channelId == null || channelId.trim().isEmpty()) {
+        String soundUri =
+                call.getString("soundUri");
+
+        if (channelId == null ||
+                channelId.trim().isEmpty()) {
+
             channelId = DEFAULT_CHANNEL_ID;
         }
 
         try {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >=
+                    Build.VERSION_CODES.O) {
 
                 NotificationManager manager =
                         (NotificationManager)
@@ -54,7 +62,9 @@ public class AlarmSoundPlugin extends Plugin {
                                 );
 
                 if (manager == null) {
-                    call.reject("NotificationManager unavailable");
+                    call.reject(
+                            "NotificationManager unavailable"
+                    );
                     return;
                 }
 
@@ -65,12 +75,17 @@ public class AlarmSoundPlugin extends Plugin {
                                 NotificationManager.IMPORTANCE_HIGH
                         );
 
-                channel.setDescription("منبه دورة النوم");
+                channel.setDescription(
+                        "منبه دورة النوم"
+                );
+
                 channel.enableVibration(true);
 
                 AudioAttributes audioAttributes =
                         new AudioAttributes.Builder()
-                                .setUsage(AudioAttributes.USAGE_ALARM)
+                                .setUsage(
+                                        AudioAttributes.USAGE_ALARM
+                                )
                                 .setContentType(
                                         AudioAttributes.CONTENT_TYPE_SONIFICATION
                                 )
@@ -81,7 +96,8 @@ public class AlarmSoundPlugin extends Plugin {
 
                     try {
 
-                        Uri uri = Uri.parse(soundUri);
+                        Uri uri =
+                                Uri.parse(soundUri);
 
                         channel.setSound(
                                 uri,
@@ -89,16 +105,22 @@ public class AlarmSoundPlugin extends Plugin {
                         );
 
                     } catch (Exception ignored) {
-                        // استخدام الصوت الافتراضي إذا فشل الصوت المخصص
                     }
+
                 }
 
-                manager.createNotificationChannel(channel);
+                manager.createNotificationChannel(
+                        channel
+                );
             }
 
-            JSObject result = new JSObject();
+            JSObject result =
+                    new JSObject();
 
-            result.put("channelId", channelId);
+            result.put(
+                    "channelId",
+                    channelId
+            );
 
             call.resolve(result);
 
@@ -111,14 +133,11 @@ public class AlarmSoundPlugin extends Plugin {
         }
     }
 
-    // ============================================================
-    // جدولة المنبه
-    // ============================================================
-
     @PluginMethod
     public void scheduleAlarm(PluginCall call) {
 
-        int id = call.getInt("id", 10001);
+        int id =
+                call.getInt("id", 10001);
 
         String title =
                 call.getString(
@@ -132,20 +151,26 @@ public class AlarmSoundPlugin extends Plugin {
                         "حان وقت المنبه"
                 );
 
-        Long at = call.getLong("at");
+        Long at =
+                call.getLong("at");
 
-        String soundUri = call.getString("soundUri");
+        String soundUri =
+                call.getString("soundUri");
 
         if (at == null) {
 
-            call.reject("Alarm time is missing");
+            call.reject(
+                    "Alarm time is missing"
+            );
 
             return;
         }
 
         if (at <= System.currentTimeMillis()) {
 
-            call.reject("Alarm time is in the past");
+            call.reject(
+                    "Alarm time is in the past"
+            );
 
             return;
         }
@@ -160,13 +185,15 @@ public class AlarmSoundPlugin extends Plugin {
 
             if (alarmManager == null) {
 
-                call.reject("AlarmManager unavailable");
+                call.reject(
+                        "AlarmManager unavailable"
+                );
 
                 return;
             }
 
-            // Android 12 وما بعده
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (Build.VERSION.SDK_INT >=
+                    Build.VERSION_CODES.S) {
 
                 if (!alarmManager.canScheduleExactAlarms()) {
 
@@ -217,10 +244,13 @@ public class AlarmSoundPlugin extends Plugin {
                                     PendingIntent.FLAG_IMMUTABLE
                     );
 
-            // إلغاء أي منبه سابق بنفس الرقم
-            alarmManager.cancel(pendingIntent);
+            // إلغاء الموعد القديم بنفس الرقم
+            alarmManager.cancel(
+                    pendingIntent
+            );
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >=
+                    Build.VERSION_CODES.M) {
 
                 alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
@@ -239,11 +269,23 @@ public class AlarmSoundPlugin extends Plugin {
 
             scheduledAlarmIds.add(id);
 
-            JSObject result = new JSObject();
+            JSObject result =
+                    new JSObject();
 
-            result.put("id", id);
-            result.put("scheduledAt", at);
-            result.put("success", true);
+            result.put(
+                    "id",
+                    id
+            );
+
+            result.put(
+                    "scheduledAt",
+                    at
+            );
+
+            result.put(
+                    "success",
+                    true
+            );
 
             call.resolve(result);
 
@@ -263,14 +305,11 @@ public class AlarmSoundPlugin extends Plugin {
         }
     }
 
-    // ============================================================
-    // إلغاء المنبه
-    // ============================================================
-
     @PluginMethod
     public void cancelAlarm(PluginCall call) {
 
-        int id = call.getInt("id", 10001);
+        int id =
+                call.getInt("id", 10001);
 
         try {
 
@@ -297,17 +336,27 @@ public class AlarmSoundPlugin extends Plugin {
                                         PendingIntent.FLAG_IMMUTABLE
                         );
 
-                alarmManager.cancel(pendingIntent);
+                alarmManager.cancel(
+                        pendingIntent
+                );
 
                 pendingIntent.cancel();
             }
 
             scheduledAlarmIds.remove(id);
 
-            JSObject result = new JSObject();
+            JSObject result =
+                    new JSObject();
 
-            result.put("id", id);
-            result.put("success", true);
+            result.put(
+                    "id",
+                    id
+            );
+
+            result.put(
+                    "success",
+                    true
+            );
 
             call.resolve(result);
 
@@ -320,16 +369,15 @@ public class AlarmSoundPlugin extends Plugin {
         }
     }
 
-    // ============================================================
-    // فتح إعدادات Exact Alarm
-    // ============================================================
-
     @PluginMethod
-    public void openExactAlarmSettings(PluginCall call) {
+    public void openExactAlarmSettings(
+            PluginCall call
+    ) {
 
         try {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (Build.VERSION.SDK_INT >=
+                    Build.VERSION_CODES.S) {
 
                 Intent intent =
                         new Intent(
@@ -361,7 +409,9 @@ public class AlarmSoundPlugin extends Plugin {
                             )
                     );
 
-                    getContext().startActivity(fallback);
+                    getContext().startActivity(
+                            fallback
+                    );
                 }
             }
 
@@ -376,10 +426,6 @@ public class AlarmSoundPlugin extends Plugin {
         }
     }
 
-    // ============================================================
-    // اختيار ملف صوتي
-    // ============================================================
-
     @PluginMethod
     public void pickAudio(PluginCall call) {
 
@@ -392,7 +438,9 @@ public class AlarmSoundPlugin extends Plugin {
                 Intent.CATEGORY_OPENABLE
         );
 
-        intent.setType("audio/*");
+        intent.setType(
+                "audio/*"
+        );
 
         intent.addFlags(
                 Intent.FLAG_GRANT_READ_URI_PERMISSION |
@@ -405,10 +453,6 @@ public class AlarmSoundPlugin extends Plugin {
                 "audioPickerResult"
         );
     }
-
-    // ============================================================
-    // نتيجة اختيار الصوت
-    // ============================================================
 
     @ActivityCallback
     private void audioPickerResult(
@@ -426,23 +470,25 @@ public class AlarmSoundPlugin extends Plugin {
                 result.getData() == null ||
                 result.getData().getData() == null) {
 
-            call.reject("لم يتم اختيار ملف صوتي");
+            call.reject(
+                    "لم يتم اختيار ملف صوتي"
+            );
 
             return;
         }
 
-        Intent data = result.getData();
+        Intent data =
+                result.getData();
 
-        Uri uri = data.getData();
+        Uri uri =
+                data.getData();
 
         try {
 
             int takeFlags =
                     data.getFlags() &
-                            (
-                                    Intent.FLAG_GRANT_READ_URI_PERMISSION |
-                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            );
+                            (Intent.FLAG_GRANT_READ_URI_PERMISSION |
+                                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             getContext()
                     .getContentResolver()
@@ -452,10 +498,10 @@ public class AlarmSoundPlugin extends Plugin {
                     );
 
         } catch (Exception ignored) {
-            // بعض مديري الملفات لا يدعمون صلاحية التخزين الدائمة
         }
 
-        String name = uri.getLastPathSegment();
+        String name =
+                uri.getLastPathSegment();
 
         if (name == null ||
                 name.trim().isEmpty()) {
@@ -463,7 +509,8 @@ public class AlarmSoundPlugin extends Plugin {
             name = "custom-alarm-sound";
         }
 
-        JSObject resultObject = new JSObject();
+        JSObject resultObject =
+                new JSObject();
 
         resultObject.put(
                 "uri",
@@ -475,6 +522,8 @@ public class AlarmSoundPlugin extends Plugin {
                 name
         );
 
-        call.resolve(resultObject);
+        call.resolve(
+                resultObject
+        );
     }
 }
